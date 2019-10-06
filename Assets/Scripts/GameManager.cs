@@ -56,6 +56,14 @@ public class GameManager : MonoBehaviour
 
 	private void OnBoardCellClicked(Cell cell)
 	{
+		if (SelectedBuildingPrefab.Type == CellType.House && Board.GetCellsFromType(CellType.House).Count > 15) {
+			return;
+		}
+
+		if (SelectedBuildingPrefab.Type == CellType.Park && Board.GetCellsFromType(CellType.Park).Count > 10) {
+			return;
+		}
+
 		if (_endGameTriggered) {
 			return;
 		}

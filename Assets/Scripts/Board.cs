@@ -141,6 +141,20 @@ public class Board : MonoBehaviour
 		return cells.Where(c => c != cell).ToList();
 	}
 
+	public List<Cell> GetCellsFromType(CellType type)
+	{
+		var cells = new List<Cell>();
+		foreach (List<Cell> cellRow in Cells) {
+			foreach (Cell cell in cellRow) {
+				if (cell.Type == type) {
+					cells.Add(cell);
+				}
+			}
+		}
+
+		return cells;
+	}
+
 	public void RefreshBoardArt()
 	{
 		foreach (List<Cell> cellRow in Cells) {
@@ -317,9 +331,14 @@ public class Board : MonoBehaviour
 	{
 		int i = 0;
 
+		int houses = 0;
+		int parks = 0;
 		foreach (Cell surroundingCell in GetAllSurroundings(cell)) {
 			if (surroundingCell.Type == CellType.House) {
-				i++;
+				if (houses < 4) {
+					i++;
+					houses++;
+				}
 			} else if (surroundingCell.Type == CellType.Fireside) {
 				i += 2;
 			} else if (surroundingCell.Type == CellType.RoadCross || surroundingCell.Type == CellType.RoadHor || surroundingCell.Type == CellType.RoadVer) {
@@ -333,7 +352,10 @@ public class Board : MonoBehaviour
 			} else if (surroundingCell.Type == CellType.Graveyard) {
 				i -= 5;
 			} else if (surroundingCell.Type == CellType.Park) {
-				i++;
+				if (parks < 4) {
+					i++;
+					parks++;
+				}
 			}
 		}
 
